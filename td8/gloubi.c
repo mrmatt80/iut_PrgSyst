@@ -26,7 +26,7 @@ int main()
 		perror(":erreur de semaphore M");
 
 
-	srand(time(NULL));
+	srand(TIME(NULL));
 
 if(fork()==0){
 	printf("AC1: début bananette\n");
