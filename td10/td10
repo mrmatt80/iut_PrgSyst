@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <pthread.h>
+pthread_cond_t pplein;
+pthread_cond_t pvide;
+pthread_mutex_t mut;
+
+
+void* MA()
+{
+	while(1){
+		sleep();
+		pthread_mutex_lock(&mut);
+		if(nb==5){
+			printf("Machine A : Panier plein\n");
+			pthread_cond_wait(&pplein, &mut);
+		}
+		nb++;
+		if(nb==1)	//panier vide avant le nb++
+			pthread_cond_signal(&pvide);	//il faut eventuellement reveiller machine B
+		pthread_mutex_unlock(&mut);
+	}
+}
+
+
+void* MB()
+{
+	while(1){	
+		pthread_mutex_lock(&mut);
+		if(nb==0){
+			printf("Machine B : panier vide\n");
+			pthread-cond_wait(&pvide, &mut);
+		}	
+		nb--;
+		if(nb==4)	//panier plein avant le nb--
+			pthread_cond_signal(&pplein);
+		pthread_mutex_unlock(&mut);
+	}
+		sleep();
+}
